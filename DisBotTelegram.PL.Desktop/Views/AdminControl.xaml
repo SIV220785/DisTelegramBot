@@ -1,0 +1,190 @@
+﻿<ContentControl x:Class="DisBotTelegram.PL.Desktop.Views.AdminControl"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:Pass="clr-namespace:DisBotTelegram.PL.Desktop.Helper"
+        mc:Ignorable="d"
+        x:Name="AdminWindow"
+        DataContext="{StaticResource AdminControl}"
+        Background="{DynamicResource TestBorderGradientBrush}">
+
+    
+    <ContentControl.Resources>
+        <Style TargetType="Label">
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="LawnGreen"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Width" Value="80"/>
+            <Setter Property="Foreground" Value="LawnGreen"/>
+            <Setter Property="Background" Value="{DynamicResource TestBorderGradientBrush}"/>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="Width" Value="220"/>
+        </Style>
+        <Style TargetType="PasswordBox">
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="Width" Value="220"/>
+        </Style>
+    </ContentControl.Resources>
+    <Grid>
+        <TabControl Background="{DynamicResource TestBorderGradientBrush}" TabStripPlacement="Top" HorizontalContentAlignment="Left" >
+            <TabItem HorizontalContentAlignment="Stretch">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Message History" Margin="15,0,25,0" VerticalAlignment="Center" FontWeight="Bold"/>
+                    </StackPanel>
+                </TabItem.Header>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="4*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Label Grid.Column="0"
+                           Grid.Row="0"
+                           Content="Messages"/>
+                    <ListBox Grid.Row="1"
+                             Grid.Column="0"
+                             Grid.RowSpan="8"
+                             Margin="5"
+                             FontSize="15"
+                             ItemsSource="{Binding Messages}"/>
+                    <Label Grid.Column="1" 
+                           Grid.Row ="0"
+                           Content="Dispatcher List" />
+                    <ComboBox Grid.Column="1"
+                              Grid.Row="1"
+                              Margin="5"
+                              VerticalContentAlignment="Center"
+                              ItemsSource="{Binding Users}"
+                              SelectedItem="{Binding UserLinq}"/>
+                    <Label Grid.Column="1"
+                           Grid.Row="2"
+                           HorizontalAlignment="Center"
+                           Content="Client List"/>
+                    <ComboBox Grid.Column="1"
+                              Grid.Row="3"
+                              Margin="5"
+                              VerticalContentAlignment="Center"
+                              ItemsSource="{Binding Clients}"
+                              SelectedItem="{Binding ClientLinq}"/>
+                    <Label Grid.Column="1"
+                           Grid.Row="4"
+                           Content="From Date"/>
+                    <DatePicker Grid.Column="1"
+                                Grid.Row="5"
+                                Margin="5"
+                                SelectedDateFormat="Short"
+                                SelectedDate="{Binding FromDate}"/>
+                    <Label Grid.Column="1" 
+                           Grid.Row="6"
+                           Content="Up To Date"/>
+                    <DatePicker Grid.Column="5"
+                                Grid.Row="7"
+                                Margin="5"
+                                SelectedDate="{Binding ToDate}"/>
+                    <Button Grid.Column="1"
+                            Grid.Row="8"
+                            Margin="5"
+                            Content="Ok" 
+                            Command="{Binding OkCommandLinq}"/>
+                </Grid>
+            </TabItem>
+            <TabItem HorizontalContentAlignment="Stretch">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Dispatcher Registration" Margin="15,0,25,0" VerticalAlignment="Center" FontWeight="Bold"/>
+                    </StackPanel>
+                </TabItem.Header>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="0.5*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0"
+                           Grid.Column="0"
+                           Content="Login"
+                           Name="Login"/>
+                    <TextBox Grid.Row="1"
+                             Grid.Column="0"
+                             Text="{Binding Login , ValidatesOnExceptions=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True}"/>
+                    <TextBlock Grid.Row="1"
+                               Grid.Column="1"
+                               FontSize="15"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Center"
+                               Text="{Binding CheckLoginText}" />
+                    <Label Grid.Column="0"
+                           Grid.Row="2"
+                           Content="Paswword"/>
+                    <PasswordBox x:Name="PasswordBox"
+                                 Grid.Column="0"
+                                 Grid.Row="3"
+                                 Pass:PasswordBoxAssistant.BindPassword="True"
+                                 Pass:PasswordBoxAssistant.BoundPassword="{Binding Paswword, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                    <Label Grid.Column="0"
+                           Grid.Row="4"
+                           Content="Confirm Password"/>
+                    <PasswordBox x:Name="PasswordBox1"
+                                 Grid.Column="0"
+                                 Grid.Row="6"
+                                 Pass:PasswordBoxAssistant.BindPassword="True"
+                                 Pass:PasswordBoxAssistant.BoundPassword="{Binding RepeatPassword, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged ,ValidatesOnExceptions=True, ValidatesOnDataErrors=True, NotifyOnValidationError=True}">
+                        <PasswordBox.InputBindings>
+                            <KeyBinding Command="{Binding SaveCommand}" Key="Enter"/>
+                        </PasswordBox.InputBindings>
+                    </PasswordBox>
+                    <TextBlock Grid.Column="1"                        
+                               Grid.Row="6"
+                               FontSize="15" 
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Center"
+                               Text="{Binding CheckPaswwordText}"/>
+                    <Label Grid.Column="2"
+                           Grid.Row="0"                 
+                           Content="First Name"/>
+                    <TextBox Grid.Column="2"
+                             Grid.Row="1"
+                             Text="{Binding FirstName}" />
+                    <Label Grid.Column="2"
+                           Grid.Row="2"
+                           Content="Last Name"/>
+                    <TextBox Grid.Column="2"
+                             Grid.Row="3"
+                             Text="{Binding LastName}"/>
+                    <Button Grid.Column="2"
+                            Grid.Row="6"
+                            Content="Save"
+                            IsEnabled="{Binding IsCorrectPassword}"
+                            Command="{Binding SaveCommand}"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</ContentControl>
